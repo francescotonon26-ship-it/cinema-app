@@ -3,4 +3,4 @@ Python-barcode
 Flask
 werkzeug
 Flask-Login
-gunicornpip 
+gunicorn 
