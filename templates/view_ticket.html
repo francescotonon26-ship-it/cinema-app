@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Biglietto #{{ ticket.id }} – CinemaApp{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <h2 class="mb-4">Biglietto #{{ ticket.id }}</h2>
+
+  <p><strong>Film:</strong> {{ proj.film_title }}</p>
+  <p><strong>Data:</strong> {{ proj.date }} alle {{ proj.time }}</p>
+  <p><strong>Sala:</strong> {{ proj.sala }}</p>
+  <p><strong>Categoria:</strong> {{ ticket.category }}</p>
+  <p><strong>Quantità:</strong> {{ ticket.quantity }}</p>
+  <p><strong>Acquistato il:</strong> {{ ticket.timestamp }}</p>
+
+  <div class="mt-4 text-center">
+    <img src="{{ url_for('static', filename=barcode_filename) }}"
+         alt="Barcode biglietto {{ ticket.id }}"
+         class="img-fluid" />
+  </div>
+
+  <div class="mt-4">
+    <a href="{{ url_for('my_tickets') }}" class="btn btn-secondary">
+      Torna a I Miei Biglietti
+    </a>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}Registrati - CinemaApp{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6 col-lg-5">
+    <h2 class="text-center mb-4">Registrati</h2>
+    <form method="post">
+      <div class="mb-3">
+        <label for="first_name" class="form-label">Nome</label>
+        <input type="text" id="first_name" name="first_name" class="form-control" placeholder="Inserisci il tuo nome" required>
+      </div>
+      <div class="mb-3">
+        <label for="last_name" class="form-label">Cognome</label>
+        <input type="text" id="last_name" name="last_name" class="form-control" placeholder="Inserisci il tuo cognome" required>
+      </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" id="email" name="email" class="form-control" placeholder="nome@esempio.com" required>
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" id="password" name="password" class="form-control" placeholder="Inserisci una password" required>
+      </div>
+      <!-- Button to reveal organizer secret key field -->
+      <div class="mb-3 text-center">
+        <button class="btn btn-outline-secondary btn-sm px-2 py-1" type="button" data-bs-toggle="collapse" data-bs-target="#secretKeySection" aria-expanded="false" aria-controls="secretKeySection">
+          Sei un organizzatore? Clicca qui
+        </button>
+      </div>
+      <div class="collapse mb-3" id="secretKeySection">
+        <label for="secret_key" class="form-label">Chiave Segreta</label>
+        <input type="password" id="secret_key" name="secret_key" class="form-control" placeholder="Inserisci la chiave segreta">
+      </div>
+      <div class="mb-3">
+        <button type="submit" class="btn btn-success w-100">Registrati</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

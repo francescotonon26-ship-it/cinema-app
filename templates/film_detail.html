@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}Dettaglio Film – {{ film.title }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+  {% set date_labels = {
+  '2025-07-14': 'Lunedì 14-7',
+  '2025-07-15': 'Martedì 15-7',
+  '2025-07-16': 'Mercoledì 16-7',
+  '2025-07-17': 'Giovedì 17-7',
+  '2025-07-18': 'Venerdì 18-7',
+  '2025-07-19': 'Sabato 19-7',
+  '2025-07-20': 'Domenica 20-7'
+  } %}
+  {% set fixed_days = [
+  '2025-07-14','2025-07-15','2025-07-16',
+  '2025-07-17','2025-07-18','2025-07-19','2025-07-20'
+  ] %}
+
+  <div class="card mb-5">
+    <div class="row g-0">
+      <!-- Colonna Immagine -->
+      <div class="col-md-4 p-4">
+        {% if film.poster_filename %}
+        <img src="{{ url_for('static', filename='images/posters/' ~ film.poster_filename) }}"
+          class="img-fluid w-100 rounded-start" alt="{{ film.title }}">
+        {% else %}
+        <img src="{{ url_for('static', filename='images/posters/placeholder.jpg') }}"
+          class="img-fluid w-100 rounded-start" alt="Placeholder">
+        {% endif %}
+      </div>
+
+      <!-- Colonna Info Film -->
+      <div class="col-md-4">
+        <div class="card-body">
+          <h2 class="card-title mb-3">{{ film.title }}</h2>
+          <p class="mb-1"><strong>Durata:</strong> {{ film.duration }} min</p>
+          <p class="mb-2"><strong>Genere:</strong> {{ film.genre }}</p>
+          <p class="mb-2"><strong>Descrizione film:</strong> {{ film.description }}</p>
+        </div>
+      </div>
+
+      <!-- Colonna Programmazione Settimanale -->
+      <div class="col-md-4">
+        <div class="card-body d-flex flex-column">
+          {% for date in fixed_days %}
+          {% set slots = projections | selectattr('date', 'equalto', date) | list %}
+          {% if slots %}
+          <div class="mb-3">
+            <h5 class="fw-bold mb-2">{{ date_labels[date] }}</h5>
+            <div>
+              {% for p in slots %}
+              {% if session.get('is_admin') %}
+              <button class="btn btn-outline-primary me-2 mb-1 disabled" aria-disabled="true">
+                {{ p.time }}
+              </button>
+              {% else %}
+              <a href="{{ url_for('buy_ticket', proj_id=p.id) }}" class="btn btn-outline-primary me-2 mb-1">
+                {{ p.time }}
+              </a>
+              {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+          {% endfor %}
+
+          <!-- Pulsante ritorno -->
+          <div class="mt-auto text-start">
+            <a href="{{ url_for('home') }}" class="btn btn-secondary">Torna alla Home</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

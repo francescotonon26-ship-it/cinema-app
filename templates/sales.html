@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}Statistiche Vendite – {{ proj.film_title }}{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <h2>Statistiche Vendite</h2>
+  <p>
+    <strong>Film:</strong> {{ proj.film_title }} |
+    <strong>Data:</strong> {{ proj.date }} |
+    <strong>Ora:</strong> {{ proj.time }} |
+    <strong>Sala:</strong> {{ proj.sala }}
+  </p>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }} alert-dismissible fade show mt-3" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+  {% endwith %}
+
+  {% if total_tickets > 0 %}
+    <p><strong>Biglietti totali venduti:</strong> {{ total_tickets }}</p>
+    <p><strong>Numero biglietti normali:</strong> {{ normal_tickets }}</p>
+    <p><strong>Numero biglietti VIP:</strong> {{ vip_tickets }}</p>
+    <p><strong>Ricavo totale:</strong> €{{ total_revenue }}</p>
+
+    <!-- Progress bar occupazione sala -->
+    <div class="mt-4">
+      <h5>Occupazione Sala</h5>
+      <div class="progress" role="progressbar"
+           aria-label="Percentuale posti venduti"
+           aria-valuenow="{{ percent_sold }}"
+           aria-valuemin="0" aria-valuemax="100">
+        <div class="progress-bar" style="width: {{ percent_sold }}%;"></div>
+      </div>
+      <p class="mt-2">
+        {{ total_tickets }} di {{ total_seats }} posti venduti ({{ percent_sold }}%)
+      </p>
+    </div>
+  {% else %}
+    <p class="mt-4 " id="nessun_biglietto_venduto">Nessun biglietto venduto per questa proiezione.</p>
+  {% endif %}
+
+  <a href="{{ url_for('manage_projections') }}" class="btn btn-secondary mt-3">
+    Torna a Gestione Proiezioni
+  </a>
+</div>
+{% endblock %}

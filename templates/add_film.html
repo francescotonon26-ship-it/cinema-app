@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% block title %}Aggiungi Film e Proiezioni - CinemaApp{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <h2 class="text-center mb-4">Aggiungi Film e Proiezioni</h2>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }} alert-dismissible fade show mt-3" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <form method="post" enctype="multipart/form-data">
+      <!-- Dati del film -->
+      <h4>Dati Film</h4>
+      <div class="mb-3">
+        <label for="title" class="form-label">Titolo del film</label>
+        <input type="text" id="title" name="title" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label for="duration" class="form-label">Durata (in minuti)</label>
+        <input type="number" id="duration" name="duration" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label for="genre" class="form-label">Genere</label>
+        <input type="text" id="genre" name="genre" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label for="description" class="form-label">Breve descrizione</label>
+        <textarea id="description" name="description" class="form-control" rows="3" required></textarea>
+      </div>
+      <div class="mb-3">
+        <label for="poster" class="form-label">Locandina (immagine)</label>
+        <input type="file" id="poster" name="poster" class="form-control" accept="image/*" required>
+      </div>
+
+      <!-- Proiezioni multiple -->
+      <h4>Proiezioni collegate</h4>
+      {% for i in range(1, 4) %}
+      <div class="row mb-3">
+        <div class="col-md-4">
+          <label for="date{{ i }}" class="form-label">Giorno {{ i }}</label>
+          <select id="date{{ i }}" name="date{{ i }}" class="form-select">
+            <option value="">Seleziona giorno</option>
+            <option value="2025-07-14">Lunedì 14-7</option>
+            <option value="2025-07-15">Martedì 15-7</option>
+            <option value="2025-07-16">Mercoledì 16-7</option>
+            <option value="2025-07-17">Giovedì 17-7</option>
+            <option value="2025-07-18">Venerdì 18-7</option>
+            <option value="2025-07-19">Sabato 19-7</option>
+            <option value="2025-07-20">Domenica 20-7</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <label for="time{{ i }}" class="form-label">Ora {{ i }}</label>
+          <input type="time" id="time{{ i }}" name="time{{ i }}" class="form-control">
+        </div>
+        <div class="col-md-4">
+          <label for="sala{{ i }}" class="form-label">Sala {{ i }}</label>
+          <select id="sala{{ i }}" name="sala{{ i }}" class="form-select">
+            <option value="">Seleziona sala</option>
+            <option value="1">Sala 1</option>
+            <option value="2">Sala 2</option>
+            <option value="3">Sala 3</option>
+          </select>
+        </div>
+      </div>
+      {% endfor %}
+
+      <div class="text-center">
+        <button type="submit" class="btn btn-success px-5">Salva</button>
+      </div>
+      {% endblock %}

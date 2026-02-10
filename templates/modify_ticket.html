@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %}Modifica Biglietto – {{ proj.film_title }}{% endblock %}
+{% block content %}
+<div class="form-container">
+  <h2>Modifica Prenotazione</h2>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for cat, msg in messages %}
+        <div class="alert alert-{{ cat }} alert-dismissible fade show mt-3">
+          {{ msg }}
+          <button class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <form method="post">
+    <div class="mb-3">
+      <p class="mb-1"><strong>Film:</strong> {{ proj.film_title }}</p>
+    </div>
+
+    <div class="mb-3">
+      <label for="projection_id" class="form-label">Cambia data proiezione</label>
+      <select name="projection_id" id="projection_id" class="form-select">
+        {% for p in projections %}
+          <option value="{{ p.id }}" {% if p.id == proj.id %}selected{% endif %}>
+            {{ p.date }} alle {{ p.time }} – Sala {{ p.sala }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label for="category" class="form-label">Cambia categoria di posto</label>
+      <select name="category" id="category" class="form-select">
+        <option value="Normale" {% if ticket.category == 'Normale' %}selected{% endif %}>
+          Normale (8€)
+        </option>
+        <option value="VIP" {% if ticket.category == 'VIP' %}selected{% endif %}>
+          VIP (12€)
+        </option>
+      </select>
+    </div>
+
+    <div class="row gx-2 gy-2 mt-4">
+      <div class="col-12">
+        <button type="submit" name="update" class="btn btn-success w-100">
+          Modifica Biglietto
+        </button>
+      </div>
+      <div class="col-12">
+        <button type="submit" name="cancel" class="btn btn-danger w-100">
+          Annulla Prenotazione
+        </button>
+      </div>
+    </div>
+  </form>
+  <div class="mt-4 alert alert-info text-center">
+    Puoi modificare o annullare il tuo biglietto fino a 8 ore prima dell'orario della proiezione. Eventuali cambi di categoria di posto dovranno essere saldati prima dell'inizio della proiezione direttamente in cassa
+  </div>
+</div>
+{% endblock %}

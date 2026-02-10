@@ -1,0 +1,6 @@
+Pillow
+Python-barcode
+Flask
+werkzeug
+Flask-Login
+

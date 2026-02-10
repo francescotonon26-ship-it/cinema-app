@@ -1,0 +1,281 @@
+
+
+
+/* BACKGROUND SALA CINEMA */
+body {
+  background: url("/static/images/SalaCinema.jpg") no-repeat center center fixed;
+  background-size: cover;
+  color: #ffffff;
+}
+
+
+/* Renderizza il main container con sfondo leggermente trasparente */
+main.container {
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+
+/* Navbar */
+.navbar {
+  background: linear-gradient(
+    90deg,
+    rgba(25,25,25,1) 0%,
+    rgba(40,0,0,0.8) 50%,
+    rgba(25,25,25,1) 100%
+  ) !important;
+}
+.navbar-brand {
+  font-weight: bold;
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+}
+.nav-link {
+  color: #f0f0f0 !important;
+  margin-left: 1rem;
+}
+.nav-link:hover {
+  color: #ff4444 !important;
+}
+
+
+
+.card {
+
+  background-color: rgba(42, 42, 42, 0.60) !important;
+
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+.card:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+}
+
+.card-img-top {
+  border-bottom: 2px solid #ff4444;
+}
+.card-title {
+  color: #ffdd57;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+.card-text {
+  color: #ddd;
+}
+
+/* Pulsanti */
+.btn {
+  border-radius: 0.3rem;
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+
+/* Form e select */
+.form-control, .form-select {
+  background-color: #3a3a3a;
+  color: #f0f0f0;
+  border: 1px solid #555;
+}
+.form-control:focus, .form-select:focus {
+  background-color: #3a3a3a;
+  border-color: #ff4444;
+  box-shadow: none;
+  color: #f0f0f0;
+}
+
+/* Footer */
+footer {
+  background-color: #000;
+  color: #777;
+  font-size: 0.875rem;
+}
+
+/* Hero / jumbotron */
+.jumbotron, .bg-light {
+  background: url('/static/images/cinema_background.jpg') center center/cover no-repeat;
+  color: #fff;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
+}
+
+/* Alert */
+.alert {
+  border-radius: 0.3rem;
+}
+
+/* Responsività immagini */
+.img-fluid {
+  object-fit: contain;
+}
+
+/* HOME PAGE SPECIFIC */
+.container-fluid.py-4 {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+.card.mb-5 {
+  border: 1px solid #444;
+}
+.card-body h3 {
+  color: #ffdd57;
+  font-size: 1.5rem;
+}
+.card-body .btn-outline-primary {
+  border-color: #ffdd57;
+  color: #ffdd57;
+}
+.card-body .btn-outline-primary:hover {
+  background-color: rgba(255, 221, 87, 0.1);
+}
+
+/* LOGIN & SIGNUP FORMS */
+.form-container {
+  max-width: 400px;
+  margin: 2rem auto;
+  background-color: #2a2a2a;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+.form-container h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #ffdd57;
+}
+
+/* FILM DETAIL PAGE */
+.list-group-item {
+  background-color: #3a3a3a;
+  color: #f0f0f0;
+  border: none;
+}
+.list-group-item + .list-group-item {
+  border-top: 1px solid #555;
+}
+
+/* ADD/EDIT PROJECTION & FILM PAGES */
+.card.mb-4 {
+  background-color: #2a2a2a;
+}
+.card.mb-4 .card-body h3 {
+  color: #ffdd57;
+}
+label {
+  color: #ddd;
+}
+
+/* MANAGE PROJECTIONS */
+.row .card {
+  transition: transform 0.2s ease;
+}
+.row .card:hover {
+  transform: translateY(-5px);
+}
+
+/* STATISTICS PAGE */
+.statistics p {
+  font-size: 1.1rem;
+  margin: 0.5rem 0;
+}
+.statistics strong {
+  color: #ffdd57;
+}
+
+/* GLOBAL TYPOGRAPHY */
+h2, h3, h4, h5 {
+  font-family: 'Cinzel', serif;
+}
+p {
+  line-height: 1.6;
+}
+
+
+/* Aumenta contrasto per testi e placeholder */
+
+/* Testi nei card (descrizioni, dettagli) */
+.card-text,
+.card-body p,
+.list-group-item,
+.card-body small {
+  color: #eeeeee; /* quasi bianco */
+}
+
+/* Label dei form */
+label,
+.form-label {
+  color: #f5f5f5 !important;
+}
+
+/* Placeholder degli input */
+::placeholder {
+  color: #bbbbbb !important; /* medio-grigio chiaro */
+  opacity: 1; /* forziamo visibilità massima */
+}
+/* Supporto vendor-specific */
+::-webkit-input-placeholder { color: #bbbbbb !important; opacity:1; }
+::-moz-placeholder          { color: #bbbbbb !important; opacity:1; } 
+:-ms-input-placeholder      { color: #bbbbbb !important; opacity:1; } 
+:-moz-placeholder           { color: #bbbbbb !important; opacity:1; }
+
+
+.card,
+.form-container {
+  background-color: rgba(42, 42, 42, 0.95);
+}
+
+
+.form-control,
+.form-select {
+  border: 1px solid #777 !important;
+}
+
+
+.card-text.long-desc {
+  color: #ffffff;
+}
+
+
+.card-body h5.fw-bold,
+.card-body h5 {
+  color: #ffffff !important;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+}
+
+
+.form-container .form-control,.form-container .form-select {
+  color: #ffffff !important;
+  background-color: #2a2a2a !important;
+  border-color: #888 !important;
+}
+.form-container .form-control::placeholder,
+.form-container .form-select::placeholder {
+  color: #bbbbbb !important;
+  opacity: 1;
+}
+.form-container .form-control:focus,
+.form-container .form-select:focus {
+  color: #ffffff !important;
+  background-color: #2a2a2a !important;
+  border-color: #ff4444 !important;
+  box-shadow: none;
+}
+
+
+#nessun_biglietto_venduto {
+  color: #ffffff;      
+  font-weight: 500;    
+}
+
+#Titolo_home{
+  font-family: 'Cinzel', serif;
+  color: #ffdd57;
+}

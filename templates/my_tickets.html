@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}I miei Biglietti – CinemaApp{% endblock %}
+{% block content %}
+<div class="container py-4">
+  <h2>I miei Biglietti</h2>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  {% for cat, msg in messages %}
+  <div class="alert alert-{{ cat }} alert-dismissible fade show mt-3">
+    {{ msg }}
+    <button class="btn-close" data-bs-dismiss="alert"></button>
+  </div>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
+
+  {% if tickets %}
+  <div class="row">
+    {% for t in tickets %}
+    <div class="col-md-6 mb-4">
+      <div class="card h-100">
+        <div class="row g-0">
+          <div class="col-4">
+            <img src="{{ url_for('static', filename='images/posters/' ~ t.poster_filename) }}"
+              class="img-fluid rounded-start" alt="{{ t.film_title }}">
+          </div>
+          <div class="col-8">
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title">{{ t.film_title }}</h5>
+              <p class="card-text"><strong>Data:</strong> {{ t.date }} alle {{ t.time }}</p>
+              <p class="card-text"><strong>Sala:</strong> {{ t.sala }}</p>
+              <p class="card-text"><strong>Categoria:</strong> {{ t.category }}</p>
+              <div class="row">
+                <div class=" mt-auto">
+                  {% if t.can_modify %}
+                  <a href="{{ url_for('modify_ticket', ticket_id=t.ticket_id) }}"
+                    class="col-12 btn btn-warning btn-sm mb-2 ">Modifica Biglietto</a>
+                  {% else %}
+                  <button class="col-12 btn btn-secondary btn-sm mb-2" disabled>Non modificabile</button>
+                  {% endif %}
+                  <a href="{{ url_for('view_ticket', ticket_id=t.ticket_id) }}" class="col-12 btn btn-info btn-sm mb-2">Visualizza
+                    Biglietto</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="text-muted">Non hai ancora acquistato biglietti.</p>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block title %}Home – CinemaApp{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+
+  {% set date_labels = {
+  '2025-07-14': 'Lunedì 14-7',
+  '2025-07-15': 'Martedì 15-7',
+  '2025-07-16': 'Mercoledì 16-7',
+  '2025-07-17': 'Giovedì 17-7',
+  '2025-07-18': 'Venerdì 18-7',
+  '2025-07-19': 'Sabato 19-7',
+  '2025-07-20': 'Domenica 20-7'
+  } %}
+  <h1 class="py-3" id="Titolo_home"> <strong>Film proposti</strong></h1>
+
+  <form method="get" class="mb-4 d-flex align-items-center">
+    <!-- Filtro per giorno -->
+    <label for="filter_day" class="me-2">Giorno:</label>
+    <select name="filter_day" id="filter_day" class="form-select w-auto me-4">
+      <option value="" {% if not filter_day %}selected{% endif %}>Tutti</option>
+      {% for d,label in date_labels.items() %}
+      <option value="{{ d }}" {% if d==filter_day %}selected{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select>
+
+    <!-- Filtro per genere -->
+    <label for="filter_genre" class="me-2">Filtra per genere:</label>
+    <select name="filter_genre" id="filter_genre" class="form-select w-auto me-2">
+      <option value="" {% if not filter_genre %}selected{% endif %}>Tutti i generi</option>
+      {% for g in genres %}
+      <option value="{{ g }}" {% if g==filter_genre %}selected{% endif %}>{{ g }}</option>
+      {% endfor %}
+    </select>
+
+    <button type="submit" class="btn btn-secondary">Applica filtri</button>
+  </form>
+
+
+  {% set first_three = ['2025-07-14','2025-07-15','2025-07-16'] %}
+  {% for film in films %}
+  <div class="card mb-5 p-4">
+    <div class="row g-0">
+      <!-- Colonna Immagine -->
+      <div class="col-md-4">
+        {% if film.poster_filename %}
+        <img src="{{ url_for('static', filename='images/posters/' ~ film.poster_filename) }}"
+          class="img-fluid w-100 rounded-start" alt="{{ film.title }}">
+        {% else %}
+        <img src="{{ url_for('static', filename='images/posters/placeholder.jpg') }}"
+          class="img-fluid w-100 rounded-start" alt="No Poster">
+        {% endif %}
+      </div>
+
+      <!-- Colonna Info Film -->
+      <div class="col-md-4 p-5">
+        <div class="card-body">
+          <h3 class="card-title mb-2">{{ film.title }}</h3>
+          <p class="mb-1"><strong>Durata:</strong> {{ film.duration }} min</p>
+          <p class="mb-3"><strong>Genere:</strong> {{ film.genre }}</p>
+          <p class="mb-3"><strong>Descrizione:</strong> {{ film.description }}</p>
+        </div>
+      </div>
+
+      <!-- Colonna Programmazione -->
+      <div class="col-md-4 p-5">
+        <div class="card-body d-flex flex-column">
+          {% if filter_day %}
+          {% set days = [filter_day] %}
+          {% else %}
+          {% set days = first_three %}
+          {% endif %}
+
+          {% for date in days %}
+          {% set slots = film.schedule.get(date) %}
+          {% if slots %}
+          <div class="mb-3">
+            <h5 class="fw-bold mb-2">{{ date_labels[date] }}</h5>
+            <div>
+              {% for slot in slots %}
+              {% if session.get('is_admin') %}
+              <button class="btn btn-outline-primary me-2 mb-1 disabled" aria-disabled="true">
+                {{ slot.time }}
+              </button>
+              {% else %}
+              <a href="{{ url_for('buy_ticket', proj_id=slot.id) }}" class="btn btn-outline-primary me-2 mb-1">
+                {{ slot.time }}
+              </a>
+              {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+          {% endfor %}
+
+          <!-- Bottone Scopri -->
+          <div class="mt-auto text-start">
+            <a href="{{ url_for('film_detail', id=film.id) }}" class="btn btn-primary">
+              Scopri tutte le proiezioni
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+
+  {% if films|length == 0 %}
+  <p class="text-center text-muted">Nessuna proiezione trovata.</p>
+  {% endif %}
+
+</div>
+{% endblock %}

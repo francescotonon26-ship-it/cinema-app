@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block title %}Gestione Proiezioni – CinemaApp{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <h2 class="mb-4">Gestione Proiezioni</h2>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }} alert-dismissible fade show mt-3" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <!-- Pulsanti azioni -->
+    <div class="mb-4 d-flex align-items-center">
+        <a href="{{ url_for('add_projection_select') }}" class="btn btn-success me-2">Aggiungi Proiezioni</a>
+        <a href="{{ url_for('add_film') }}" class="btn btn-success me-auto">Aggiungi Nuovo Film</a>
+    </div>
+
+    <form method="get" class="mb-4 d-flex align-items-center">
+        <!-- Filtro giorno -->
+        <label for="filter_day" class="me-2">Filtra per giorno:</label>
+        <select name="filter_day" id="filter_day" class="form-select w-auto me-4">
+            <option value="" {% if not filter_day %}selected{% endif %}>Tutti i giorni</option>
+            {% for d, label in date_labels.items() %}
+            <option value="{{ d }}" {% if d==filter_day %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+        </select>
+
+        <!-- Filtro sala -->
+        <label for="filter_sala" class="me-2">Filtra per sala:</label>
+        <select name="filter_sala" id="filter_sala" class="form-select w-auto me-4">
+            <option value="" {% if not filter_sala %}selected{% endif %}>Tutte le sale</option>
+            <option value="1" {% if filter_sala=='1' %}selected{% endif %}>Sala 1</option>
+            <option value="2" {% if filter_sala=='2' %}selected{% endif %}>Sala 2</option>
+            <option value="3" {% if filter_sala=='3' %}selected{% endif %}>Sala 3</option>
+        </select>
+
+        <button type="submit" class="btn btn-secondary">Applica Filtro</button>
+    </form>
+
+
+    <!-- Lista proiezioni -->
+    <div class="row">
+        {% if proiezioni %}
+        {% for p in proiezioni %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                {% if p.poster_filename %}
+                <img src="{{ url_for('static', filename='images/posters/' ~ p.poster_filename) }}" class="card-img-top"
+                    alt="{{ p.film_title }}">
+                {% else %}
+                <img src="{{ url_for('static', filename='images/posters/placeholder.jpg') }}" class="card-img-top"
+                    alt="Placeholder">
+                {% endif %}
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ p.film_title }}</h5>
+                    <p class="card-text"><strong>Data:</strong> {{ date_labels[p.date] }}</p>
+                    <p class="card-text"><strong>Ora:</strong> {{ p.time }}</p>
+                    <p class="card-text"><strong>Durata:</strong> {{ p.duration }} min</p>
+                    <p class="card-text"><strong>Sala:</strong> {{ p.sala }}</p>
+                    <div class="mt-auto d-flex gap-2">
+                        {% if p.can_modify %}
+                        <a href="{{ url_for('edit_projection', id=p.id) }}"
+                            class="btn btn-warning btn-sm flex-fill text-center">
+                            Modifica
+                        </a>
+                        <a href="{{ url_for('delete_projection', id=p.id) }}"
+                            class="btn btn-danger btn-sm flex-fill text-center">
+                            Elimina
+                        </a>
+                        {% else %}
+                        <button class="btn btn-warning btn-sm flex-fill text-center" disabled>
+                            Modifica
+                        </button>
+                        <button class="btn btn-danger btn-sm flex-fill text-center" disabled>
+                            Elimina
+                        </button>
+                        {% endif %}
+
+                        <a href="{{ url_for('sales', proj_id=p.id) }}"
+                            class="btn btn-info btn-sm flex-fill text-center">
+                            Statistiche Vendite
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="col-12 text-center" >
+            <p class="text-muted">Nessuna proiezione disponibile.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

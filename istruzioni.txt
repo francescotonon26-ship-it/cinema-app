@@ -1,0 +1,16 @@
+Il sito web supporta 2 tipi di utenti registrati:
+    utente spettatore: email:spettatore@spettatore.it
+                       password: spettatore
+    utente organizzatore: email: admin@admin.it     
+                          password: admin
+                
+
+Il sito web permette solo agiu utente spettatori di comprare i biglietti per le varie proiezioni.
+Gli spettatori potrenno scegliere le varie proiezioni nella home accanto ad ogni film.
+Si possono filtrare i film per data e per genere.
+Una volta acquistati i bilgietti si potrà andare nella sezione i miei biglietti e visionare il proprio biglietto con relativo barcode.
+L'organizzatore invece non può acquistare i biglietti ma può comunque gestire tutte le proiezioni, aggiungerle, modificarle e visionare le statistiche di vendita di ogni proiezione.
+
+
+DEPLOY SITO WEB: 
+è possibile accedere al sito web all'indirizzo: https://francescotonon26.pythonanywhere.com/

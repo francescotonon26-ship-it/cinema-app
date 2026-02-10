@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Acquista Biglietto – CinemaApp{% endblock %}
+
+{% block content %}
+<div class="form-container">
+  <h2>Acquista Biglietto</h2>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for cat, msg in messages %}
+        <div class="alert alert-{{ cat }} alert-dismissible fade show mt-3">
+          {{ msg }}
+          <button class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <form method="post">
+    <div class="mb-3">
+      <p><strong>Film:</strong> {{ proj.film_title }}</p>
+      <p><strong>Data:</strong> {{ proj.date }} alle {{ proj.time }} – Sala {{ proj.sala }}</p>
+    </div>
+
+    <div class="mb-3">
+      <label for="category" class="form-label">Categoria</label>
+      <select name="category" id="category" class="form-select" required>
+        <option value="Normale">Normale (€8)</option>
+        <option value="VIP">VIP (€12)</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label for="quantity" class="form-label">Quantità (max 3)</label>
+      <select name="quantity" id="quantity" class="form-select" required>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100">Acquista Biglietti</button>
+  </form>
+</div>
+{% endblock %}

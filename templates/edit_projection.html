@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+
+{% block title %}Modifica Proiezione - CinemaApp{% endblock %}
+
+{% block content %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }} alert-dismissible fade show mt-3" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+  <!-- qui comincia il tuo form di modifica… -->
+
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <h2 class="text-center mb-4">Modifica Film & Proiezione</h2>
+    <form method="post" enctype="multipart/form-data">
+      <!-- Film Fields -->
+      <h4>Dati Film</h4>
+      <input type="hidden" name="film_id" value="{{ film.id }}">
+      <input type="hidden" name="existing_poster" value="{{ film.poster_filename }}">
+      <div class="mb-3">
+        <label class="form-label">Titolo</label>
+        <input type="text" name="title" class="form-control" value="{{ film.title }}" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Durata (min)</label>
+        <input type="number" name="duration" class="form-control" value="{{ film.duration }}" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Genere</label>
+        <input type="text" name="genre" class="form-control" value="{{ film.genre }}" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Descrizione</label>
+        <textarea name="description" class="form-control" rows="3" required>{{ film.description }}</textarea>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Locandina (nuova, opzionale)</label>
+        <input type="file" name="poster" class="form-control" accept="image/*">
+      </div>
+
+      <!-- Proiezione Fields -->
+      <h4>Dati Proiezione</h4>
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label class="form-label">Giorno</label>
+          <select name="date" class="form-select" required>
+            {% for d,label in [
+              ('2025-07-14','Lunedì 14-7'),
+              ('2025-07-15','Martedì 15-7'),
+              ('2025-07-16','Mercoledì 16-7'),
+              ('2025-07-17','Giovedì 17-7'),
+              ('2025-07-18','Venerdì 18-7'),
+              ('2025-07-19','Sabato 19-7'),
+              ('2025-07-20','Domenica 20-7')
+            ] %}
+            <option value="{{ d }}" {% if projection.date==d %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Ora</label>
+          <input type="time" name="time" class="form-control" value="{{ projection.time }}" required>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Sala</label>
+        <select name="sala" class="form-select" required>
+          <option value="1" {% if projection.sala==1 %}selected{% endif %}>Sala 1</option>
+          <option value="2" {% if projection.sala==2 %}selected{% endif %}>Sala 2</option>
+          <option value="3" {% if projection.sala==3 %}selected{% endif %}>Sala 3</option>
+        </select>
+      </div>
+
+      <!-- Aggiungi nuova proiezione collegata -->
+      <div class="mb-3 text-start">
+        <button class="btn btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#newProjFields" aria-expanded="false" aria-controls="newProjFields">
+          Aggiungi una proiezione collegata
+        </button>
+      </div>
+      <div class="collapse mb-4" id="newProjFields">
+        <div class="card card-body">
+          <h5 class="mb-3">Nuova Proiezione Collegata</h5>
+          <div class="row mb-3">
+            <div class="col-md-4">
+              <label class="form-label">Giorno</label>
+              <select id="new_date" name="new_date" class="form-select">
+                <option value="">Seleziona giorno</option>
+                {% for d,label in [
+                  ('2025-07-14','Lunedì 14-7'),
+                  ('2025-07-15','Martedì 15-7'),
+                  ('2025-07-16','Mercoledì 16-7'),
+                  ('2025-07-17','Giovedì 17-7'),
+                  ('2025-07-18','Venerdì 18-7'),
+                  ('2025-07-19','Sabato 19-7'),
+                  ('2025-07-20','Domenica 20-7')
+                ] %}
+                <option value="{{ d }}">{{ label }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Ora</label>
+              <input type="time" id="new_time" name="new_time" class="form-control">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Sala</label>
+              <select id="new_sala" name="new_sala" class="form-select">
+                <option value="">Seleziona sala</option>
+                <option value="1">Sala 1</option>
+                <option value="2">Sala 2</option>
+                <option value="3">Sala 3</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <button type="submit" class="btn btn-success px-5">Salva Modifiche</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

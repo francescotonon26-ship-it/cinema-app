@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block title %}Aggiungi Proiezione – {{ film.title }}{% endblock %}
+{% block content %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show mt-3" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+<div class="row justify-content-center py-4">
+  <div class="col-md-8">
+    <h2 class="text-center mb-4">Aggiungi Proiezione per "{{ film.title }}"</h2>
+    <div class="card mb-4">
+      <div class="row g-0">
+        <div class="col-md-4">
+          {% if film.poster_filename %}
+          <img src="{{ url_for('static', filename='images/posters/' ~ film.poster_filename) }}" class="img-fluid rounded-start" alt="{{ film.title }}">
+          {% else %}
+          <img src="{{ url_for('static', filename='images/posters/placeholder.jpg') }}" class="img-fluid rounded-start" alt="No Poster">
+          {% endif %}
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h3 class="card-title">{{ film.title }}</h3>
+            <p><strong>Durata:</strong> {{ film.duration }} min | <strong>Genere:</strong> {{ film.genre }}</p>
+            <p>{{ film.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <form method="post">
+      <div class="row mb-3">
+        <div class="col-md-4">
+          <label for="date" class="form-label">Giorno</label>
+          {% set date_labels = {
+            '2025-07-14': 'Lunedì 14-7',
+            '2025-07-15': 'Martedì 15-7',
+            '2025-07-16': 'Mercoledì 16-7',
+            '2025-07-17': 'Giovedì 17-7',
+            '2025-07-18': 'Venerdì 18-7',
+            '2025-07-19': 'Sabato 19-7',
+            '2025-07-20': 'Domenica 20-7'
+          } %}
+          <select id="date" name="date" class="form-select" required>
+            <option value="">Seleziona giorno</option>
+            {% for d in fixed_days %}
+            <option value="{{ d }}">{{ date_labels[d] }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-4">
+          <label for="time" class="form-label">Ora</label>
+          <input type="time" id="time" name="time" class="form-control" required>
+        </div>
+        <div class="col-md-4">
+          <label for="sala" class="form-label">Sala</label>
+          <select id="sala" name="sala" class="form-select" required>
+            <option value="1">Sala 1</option>
+            <option value="2">Sala 2</option>
+            <option value="3">Sala 3</option>
+          </select>
+        </div>
+      </div>
+      <div class="text-center">
+        <button type="submit" class="btn btn-success">Aggiungi Proiezione</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
